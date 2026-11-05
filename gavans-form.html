@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAVANS – Làm Rõ Nhu Cầu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root { --navy:#1e3a8a; --blue:#2563eb; --line:#cbd5e1; --soft:#f1f5f9; --text:#1f2937; --muted:#64748b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#e5e7eb; font:14px/1.45 Roboto, system-ui, sans-serif; color:var(--text); }
+  .bar { position:sticky; top:0; z-index:10; display:flex; gap:8px; align-items:center; padding:10px 16px; background:#fff; border-bottom:1px solid var(--line); }
+  .bar span { margin-right:auto; color:var(--muted); font-size:13px; }
+  .btn { background:var(--navy); color:#fff; border:0; border-radius:6px; padding:9px 18px; font:500 14px Roboto, sans-serif; cursor:pointer; }
+  .btn:disabled { opacity:.6; cursor:wait; }
+  #doc { max-width:820px; margin:20px auto; background:#fff; padding:32px 36px; box-shadow:0 1px 4px rgba(0,0,0,.12); }
+  header { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; border-bottom:3px solid var(--navy); padding-bottom:8px; }
+  h1 { margin:0; color:var(--navy); font-size:24px; }
+  header p { margin:2px 0 0; font-weight:500; }
+  .tag { border:1px solid var(--line); color:var(--navy); font-weight:700; font-size:12px; padding:4px 10px; border-radius:4px; white-space:nowrap; }
+  .intro { margin:16px 0; padding:10px 14px; background:#eff6ff; border:1px solid #bfdbfe; border-left:4px solid var(--blue); font-size:13px; color:#1e40af; }
+  .intro p { margin:0; }
+  h2 { margin:22px 0 10px; padding-left:10px; border-left:5px solid var(--blue); color:var(--navy); font-size:17px; }
+  h3 { margin:0 0 8px; font-size:16px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { background:var(--navy); color:#fff; text-align:left; padding:7px 9px; font-weight:500; }
+  td { border:1px solid var(--line); padding:7px 9px; vertical-align:top; }
+  .panel { border:1px solid var(--line); border-radius:6px; padding:10px 14px; margin-top:10px; background:#fbfdff; }
+  .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  label.opt { display:flex; gap:8px; align-items:flex-start; cursor:pointer; }
+  input[type=checkbox], input[type=radio], .box { appearance:none; flex:none; width:16px; height:16px; margin:2px 0 0; border:1.5px solid #64748b; border-radius:3px; background:#fff; display:inline-grid; place-content:center; cursor:pointer; }
+  input:checked, .box.on { background:var(--blue); border-color:var(--blue); }
+  input:checked::after { content:"✓"; color:#fff; font-size:12px; line-height:1; font-weight:700; }
+  .box { color:#fff; font-size:12px; line-height:1; font-weight:700; }
+  .cp-title { display:flex; gap:8px; align-items:center; font-weight:700; margin:16px 0 6px; }
+  .badge { background:var(--navy); color:#fff; font-size:11px; padding:2px 7px; border-radius:4px; }
+  .cp td { width:33.3%; background:#fff; }
+  textarea, input[type=text], input[type=date] { width:100%; font:inherit; color:inherit; border:0; border-bottom:1px dashed #94a3b8; background:transparent; padding:4px 2px; }
+  textarea { resize:vertical; min-height:32px; field-sizing:content; }
+  textarea:focus, input:focus { outline:2px solid #bfdbfe; }
+  .note { display:block; margin-top:8px; color:var(--muted); font-size:13px; }
+  .sign { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:18px; padding:12px 14px; background:var(--soft); border:1px solid var(--line); border-radius:6px; }
+  .sign label { font-weight:700; font-size:13px; }
+  .filled { display:block; white-space:pre-wrap; border-bottom:1px dashed #94a3b8; min-height:24px; padding:3px 2px; font-weight:400; color:var(--text); }
+  .center { text-align:center; font-weight:700; }
+  .scroll { overflow-x:auto; }
+  /* .pdf = export clone; it must keep the desktop layout even when exported from a phone */
+  @media (max-width:640px) {
+    #doc:not(.pdf) { margin:0; padding:16px; }
+    #doc:not(.pdf) .opts, #doc:not(.pdf) .sign { grid-template-columns:1fr; }
+    #doc:not(.pdf) header { flex-direction:column; align-items:flex-start; }
+    #doc:not(.pdf) .scroll table { min-width:560px; }
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <span>Điền form bên dưới rồi bấm “Tải PDF” để lưu kết quả.</span>
+  <button class="btn" id="dl" type="button">Tải PDF</button>
+</div>
+
+<form id="doc" onsubmit="return false">
+  <header>
+    <div>
+      <h1>GAVANS – TRAO ĐỔI &amp; LÀM RÕ NHU CẦU</h1>
+      <p>Hệ Thống Theo Dõi Tiến Độ Và Kết Quả Kiểm Hàng</p>
+    </div>
+    <div class="tag">BẢN LÀM VIỆC v1.0</div>
+  </header>
+
+  <div class="intro">
+    <p><b>Mục đích:</b> Xác nhận bài toán vận hành của Gavans, các chỉ số mong muốn theo dõi và định hướng giải pháp kỹ thuật từ ARIS.</p>
+    <p><b>Lưu ý:</b> Cột <i>"Solution &amp; Actions – ARIS"</i> là định hướng ban đầu để hai bên cùng trao đổi và chốt phạm vi.</p>
+  </div>
+
+  <div class="keep">
+    <h2>1. TỔNG QUAN – NHU CẦU KHÁCH HÀNG VS. GIẢI PHÁP ARIS</h2>
+    <div class="scroll"><table>
+      <tr><th>Vấn đề / Nhu cầu Gavans</th><th>Khách hàng muốn nhìn thấy gì?</th><th>Solution &amp; Actions – ARIS</th></tr>
+      <tr><td>Khó nắm tình hình kiểm hàng do thông tin phân tán hoặc cập nhật thủ công.</td><td>Tình trạng &amp; tiến độ kiểm hàng từng đơn/mã: Cần kiểm, Đã kiểm, Còn lại, Kết quả và Trạng thái.</td><td>Thiết lập chức năng theo dõi tiến độ theo Đơn hàng/Mã hàng; hỗ trợ tra cứu linh hoạt theo ngày, công ty, nhà máy.</td></tr>
+      <tr><td>1 đơn hàng/mã hàng có thể được kiểm tra qua nhiều ngày khác nhau.</td><td>Lịch sử &amp; kết quả kiểm hàng chi tiết theo ngày: Số lượng hôm nay, lũy kế và số còn lại.</td><td>Xây dựng công thức tính lũy kế tự động; thiết kế Màn hình chi tiết Đơn hàng &amp; Lịch sử kiểm hàng theo ngày.</td></tr>
+      <tr><td>Nhiều bên tham gia: Gavans, Khách hàng, Nhà máy, Nhân viên kiểm hàng.</td><td>Phân quyền chính xác: Mỗi bên xem đúng dữ liệu thuộc phạm vi phụ trách với thao tác đơn giản.</td><td>Xác định Matrix phân quyền; thiết kế giao diện tối ưu cho Web Admin (Quản lý) và Mobile App (Inspector).</td></tr>
+      <tr><td>Gavans cần kiểm soát công việc của nhân viên kiểm hàng (Inspector).</td><td>Nắm rõ người phụ trách, tiến độ thực hiện và các công việc trễ hạn/chưa hoàn tất.</td><td>Đề xuất Màn hình quản lý Task Management, theo dõi trạng thái công việc theo từng nhân viên.</td></tr>
+      <tr><td>Phát sinh hàng lỗi, hàng chưa kiểm hoặc yêu cầu tái kiểm.</td><td>Phân biệt rõ ràng số lượng: Đạt, Lỗi, Chưa kiểm, Tái kiểm; tránh cộng trùng số liệu.</td><td>Thống nhất quy tắc lưu trữ lịch sử từng lần kiểm, báo cáo chi tiết tỷ lệ lỗi và kết quả tái kiểm.</td></tr>
+      <tr><td>Chủ động kiểm soát thời hạn giao/xuất hàng.</td><td>Cảnh báo đơn hàng sắp đến hạn có nguy cơ trễ do chưa hoàn tất kiểm hàng.</td><td>Thiết lập trường <i>Expected Shipping Date</i> và cơ chế Email cảnh báo tự động theo mốc thời gian.</td></tr>
+    </table></div>
+
+    <div class="panel">
+      <h3>1.1. Xác nhận phạm vi tổng quan từ Gavans:</h3>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="scope" value="ok"> Nội dung trên đã phản ánh đúng nhu cầu.</label>
+        <label class="opt"><input type="radio" name="scope" value="adjust"> Cần điều chỉnh / bổ sung thêm nội dung.</label>
+      </div>
+      <label class="note">Ý kiến điều chỉnh (nếu có):
+        <textarea name="scope_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="cp">
+    <h2>2. CÁC ĐIỂM KEY CẦN LÀM RÕ (CRITICAL POINTS)</h2>
+    <div class="cp-title"><span class="badge">CP01</span> Phân công nhân viên kiểm hàng (Task Assignment)</div>
+    <div class="scroll"><table><tr>
+      <td><b>Khách hàng muốn thấy:</b> Ai đang phụ trách đơn hàng/nhà máy nào, tiến độ công việc ra sao.</td>
+      <td><b>Cần xác nhận:</b><br>1) 1 Inspector có kiểm cho nhiều Công ty/Nhà máy không?<br>2) Admin giao việc hay Inspector tự chọn đơn?</td>
+      <td><b>Đề xuất ARIS:</b> Xây dựng Module Task Management nếu Admin giao việc; hoặc thiết lập Rule phân quyền danh sách nếu Inspector tự chọn.</td>
+    </tr></table></div>
+    <div class="panel">
+      <div class="opts">
+        <label class="opt"><input type="radio" name="cp01_scope" value="many"> 1 Inspector kiểm nhiều Công ty/Nhà máy.</label>
+        <label class="opt"><input type="radio" name="cp01_scope" value="one"> 1 Inspector chỉ kiểm 1 Công ty/Nhà máy cố định.</label>
+        <label class="opt"><input type="radio" name="cp01_assign" value="admin"> Admin Gavans phân công cụ thể từng đơn.</label>
+        <label class="opt"><input type="radio" name="cp01_assign" value="self"> Inspector tự chọn đơn trong danh sách cho phép.</label>
+      </div>
+      <label class="note">Ý kiến / ghi chú:
+        <textarea name="cp01_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="cp">
+    <div class="cp-title"><span class="badge">CP02</span> Thông tin tiến độ theo ngày (Daily Progress)</div>
+    <div class="scroll"><table><tr>
+      <td><b>Khách hàng muốn thấy:</b> Tiến độ chi tiết trong ngày và lũy kế toàn bộ đơn hàng.</td>
+      <td><b>Cần xác nhận:</b> Bộ chỉ số cần hiển thị: Tổng SL, SL Đã kiểm ngày, Lũy kế đã kiểm, SL Đạt, SL Lỗi, SL Còn lại?</td>
+      <td><b>Đề xuất ARIS:</b> Thiết kế Màn hình Dashboard Daily &amp; Lịch sử kiểm hàng theo dạng bảng dữ liệu thời gian thực.</td>
+    </tr></table></div>
+    <div class="panel">
+      <label class="note">Ý kiến / ghi chú (bổ sung hoặc bớt chỉ số):
+        <textarea name="cp02_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="cp">
+    <div class="cp-title"><span class="badge">CP03</span> Ngày dự kiến xuất hàng &amp; Cảnh báo (Shipping Date &amp; Alerts)</div>
+    <div class="scroll"><table><tr>
+      <td><b>Khách hàng muốn thấy:</b> Cảnh báo đơn hàng sắp đến hạn xuất mà kiểm hàng chưa xong.</td>
+      <td><b>Cần xác nhận:</b> Có quản lý Ngày xuất hàng (Expected Shipping Date)? Có gửi Email nhắc không? Gửi cho ai?</td>
+      <td><b>Đề xuất ARIS:</b> Tích hợp Trường ngày xuất, Rule cảnh báo màu (Vàng/Đỏ) và Trigger Email tự động trước 1-3 ngày.</td>
+    </tr></table></div>
+    <div class="panel">
+      <div class="opts">
+        <label class="opt"><input type="radio" name="cp03_email" value="yes"> Có theo dõi Ngày xuất hàng &amp; Cần Email nhắc.</label>
+        <label class="opt"><input type="radio" name="cp03_email" value="no"> Có theo dõi nhưng Không cần Email.</label>
+        <label class="opt"><input type="checkbox" name="cp03_key_orders"> Chỉ áp dụng cho một số đơn hàng trọng điểm.</label>
+        <label class="opt"><input type="checkbox" name="cp03_consult"> Cần ARIS tư vấn thêm cấu hình cảnh báo.</label>
+      </div>
+      <label class="note">Ý kiến / ghi chú (gửi email cho ai, trước mấy ngày…):
+        <textarea name="cp03_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="cp">
+    <div class="cp-title"><span class="badge">CP04</span> Quy tắc tái kiểm (Re-inspection Rules)</div>
+    <div class="scroll"><table><tr>
+      <td><b>Khách hàng muốn thấy:</b> Rõ ràng SL cần tái kiểm và kết quả sau tái kiểm, tránh trùng lặp.</td>
+      <td><b>Cần xác nhận:</b> Khi tái kiểm, chỉ kiểm SL Hàng Lỗi hay kiểm (Hàng Lỗi + SL Chưa Kiểm)?</td>
+      <td><b>Đề xuất ARIS:</b> Tách biệt dữ liệu Lần kiểm 1, Lần kiểm 2 (Re-check) để lưu vết lịch sử chính xác.</td>
+    </tr></table></div>
+    <div class="panel">
+      <div class="opts">
+        <label class="opt"><input type="radio" name="cp04" value="pa1"> PA1: Chỉ tái kiểm đúng SL đã bị lỗi.</label>
+        <label class="opt"><input type="radio" name="cp04" value="pa2"> PA2: Tái kiểm cả SL lỗi + SL chưa kiểm.</label>
+      </div>
+      <label class="note">Ý kiến / ghi chú:
+        <textarea name="cp04_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="cp">
+    <div class="cp-title"><span class="badge">CP05</span> Theo dõi tiến độ sản xuất tại Nhà máy (Factory Production)</div>
+    <div class="panel">
+      <div class="opts">
+        <label class="opt"><input type="radio" name="cp05" value="inspection"> Chỉ theo dõi tiến độ kiểm hàng (Khuyên dùng phase 1).</label>
+        <label class="opt"><input type="radio" name="cp05" value="production"> Theo dõi cả tiến độ sản xuất của Nhà máy.</label>
+      </div>
+      <label class="note">Ý kiến / ghi chú:
+        <textarea name="cp05_note"></textarea>
+      </label>
+    </div>
+  </div>
+
+  <div class="keep">
+    <h2>3. NGÔN NGỮ &amp; DỮ LIỆU MẪU PHỤC VỤ DEMO</h2>
+    <div class="scroll"><table>
+      <tr><th>Nhóm người dùng</th><th>Đề xuất ngôn ngữ</th><th>Dữ liệu mẫu cần Gavans hỗ trợ (Dummy Data)</th></tr>
+      <tr><td><b>Inspector (App)</b></td><td>Tiếng Việt</td>
+        <td rowspan="4">• Danh sách Công ty Khách hàng &amp; Nhà máy.<br>• Danh mục Mã hàng mẫu (Item Code, Color, Size).<br>• Phân loại nhóm lỗi (Defect Categories).<br>• File báo cáo Excel/Checklist hiện tại (nếu có).</td></tr>
+      <tr><td><b>Admin Gavans (Web)</b></td><td>Tiếng Việt / Tiếng Nhật</td></tr>
+      <tr><td><b>Customer (Web)</b></td><td>Tiếng Nhật</td></tr>
+      <tr><td><b>Factory (Web)</b></td><td>Tiếng Việt / Tiếng Nhật / Tiếng Anh</td></tr>
+    </table></div>
+  </div>
+
+  <div class="keep">
+    <h2>4. KẾ HOẠCH TRIỂN KHAI TIẾP THEO (NEXT ACTIONS)</h2>
+    <div class="scroll"><table>
+      <tr><th>Bước</th><th>Hành động của ARIS</th><th>Kết quả đầu ra dự kiến</th></tr>
+      <tr><td class="center">1</td><td>Tổng hợp phản hồi &amp; làm rõ các Critical Points với Gavans.</td><td>Danh sách Business Requirements được thống nhất.</td></tr>
+      <tr><td class="center">2</td><td>Mapping yêu cầu thành Mô hình Chức năng &amp; Quy tắc Nghiệp vụ.</td><td>Tài liệu Solution Outline &amp; Function Matrix.</td></tr>
+      <tr><td class="center">3</td><td>Xây dựng kịch bản Demo dựa trên Dữ liệu mẫu thu thập được.</td><td>Bản Demo Luồng Nghiệp Vụ Kiểm Hàng Daily.</td></tr>
+    </table></div>
+  </div>
+
+  <div class="sign">
+    <label>Người phản hồi: <input type="text" name="responder" required></label>
+    <label>Chức vụ: <input type="text" name="position"></label>
+    <label>Ngày phản hồi: <input type="date" name="reply_date" required></label>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('doc');
+  const btn = document.getElementById('dl');
+  form.reply_date.value = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD in local time
+
+  // Clone the form and swap every input for static text so html2canvas renders values reliably.
+  function makePdf() {
+    const clone = form.cloneNode(true);
+    const dst = clone.querySelectorAll('input, textarea');
+    form.querySelectorAll('input, textarea').forEach((el, i) => {
+      const out = document.createElement('span');
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        out.className = 'box' + (el.checked ? ' on' : '');
+        out.textContent = el.checked ? '✓' : '';
+      } else {
+        out.className = 'filled';
+        out.textContent = el.type === 'date' && el.value ? el.value.split('-').reverse().join('/') : el.value;
+      }
+      dst[i].replaceWith(out);
+    });
+    clone.classList.add('pdf');
+    clone.style.cssText = 'margin:0;max-width:none;box-shadow:none;padding:0';
+
+    const name = form.responder.value.trim().replace(/[\\/:*?"<>|]/g, '');
+    return html2pdf().set({
+      margin: [12, 12, 14, 12],
+      filename: `GAVANS - Phan hoi nhu cau - ${name}.pdf`,
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 }, // without this, output shifts down by the page's scroll offset
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['css'], avoid: ['.keep', '.cp', '.panel', '.sign', '.intro'] },
+    }).from(clone).toPdf().get('pdf').then(pdf => {
+      const n = pdf.internal.getNumberOfPages();
+      const w = pdf.internal.pageSize.getWidth(), h = pdf.internal.pageSize.getHeight();
+      pdf.setFontSize(8); pdf.setTextColor(120);
+      for (let i = 1; i <= n; i++) {
+        pdf.setPage(i);
+        pdf.text('GAVANS - Requirements Clarification Form | ARIS Co., Ltd.', 12, h - 6);
+        pdf.text(`Trang ${i} / ${n}`, w - 12, h - 6, { align: 'right' });
+      }
+    });
+  }
+
+  btn.onclick = async () => {
+    if (!form.reportValidity()) return;
+    btn.disabled = true; btn.textContent = 'Đang tạo PDF…';
+    try { await makePdf().save(); }
+    catch (e) { alert('Không tạo được PDF: ' + e.message); }
+    finally { btn.disabled = false; btn.textContent = 'Tải PDF'; }
+  };
+</script>
+</body>
+</html>
