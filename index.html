@@ -30,7 +30,7 @@
   .panel { border:1px solid var(--line); border-radius:6px; padding:10px 14px; margin-top:10px; background:#fbfdff; }
   .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
   label.opt { display:flex; gap:8px; align-items:flex-start; cursor:pointer; }
-  input[type=checkbox], input[type=radio], .box { appearance:none; flex:none; width:16px; height:16px; margin:2px 0 0; border:1.5px solid #64748b; border-radius:3px; background:#fff; display:inline-grid; place-content:center; cursor:pointer; }
+  input[type=checkbox], .box { appearance:none; flex:none; width:16px; height:16px; margin:2px 0 0; border:1.5px solid #64748b; border-radius:3px; background:#fff; display:inline-grid; place-content:center; cursor:pointer; }
   input:checked, .box.on { background:var(--blue); border-color:var(--blue); }
   input:checked::after { content:"✓"; color:#fff; font-size:12px; line-height:1; font-weight:700; }
   .box { color:#fff; font-size:12px; line-height:1; font-weight:700; }
@@ -90,8 +90,8 @@
     <div class="panel">
       <h3>1.1. Xác nhận phạm vi tổng quan từ Gavans:</h3>
       <div class="opts">
-        <label class="opt"><input type="radio" name="scope" value="ok"> Nội dung trên đã phản ánh đúng nhu cầu.</label>
-        <label class="opt"><input type="radio" name="scope" value="adjust"> Cần điều chỉnh / bổ sung thêm nội dung.</label>
+        <label class="opt"><input type="checkbox" name="scope" value="ok"> Nội dung trên đã phản ánh đúng nhu cầu.</label>
+        <label class="opt"><input type="checkbox" name="scope" value="adjust"> Cần điều chỉnh / bổ sung thêm nội dung.</label>
       </div>
       <label class="note">Ý kiến điều chỉnh (nếu có):
         <textarea name="scope_note"></textarea>
@@ -109,10 +109,10 @@
     </tr></table></div>
     <div class="panel">
       <div class="opts">
-        <label class="opt"><input type="radio" name="cp01_scope" value="many"> 1 Inspector kiểm nhiều Công ty/Nhà máy.</label>
-        <label class="opt"><input type="radio" name="cp01_scope" value="one"> 1 Inspector chỉ kiểm 1 Công ty/Nhà máy cố định.</label>
-        <label class="opt"><input type="radio" name="cp01_assign" value="admin"> Admin Gavans phân công cụ thể từng đơn.</label>
-        <label class="opt"><input type="radio" name="cp01_assign" value="self"> Inspector tự chọn đơn trong danh sách cho phép.</label>
+        <label class="opt"><input type="checkbox" name="cp01_scope" value="many"> 1 Inspector kiểm nhiều Công ty/Nhà máy.</label>
+        <label class="opt"><input type="checkbox" name="cp01_scope" value="one"> 1 Inspector chỉ kiểm 1 Công ty/Nhà máy cố định.</label>
+        <label class="opt"><input type="checkbox" name="cp01_assign" value="admin"> Admin Gavans phân công cụ thể từng đơn.</label>
+        <label class="opt"><input type="checkbox" name="cp01_assign" value="self"> Inspector tự chọn đơn trong danh sách cho phép.</label>
       </div>
       <label class="note">Ý kiến / ghi chú:
         <textarea name="cp01_note"></textarea>
@@ -143,8 +143,8 @@
     </tr></table></div>
     <div class="panel">
       <div class="opts">
-        <label class="opt"><input type="radio" name="cp03_email" value="yes"> Có theo dõi Ngày xuất hàng &amp; Cần Email nhắc.</label>
-        <label class="opt"><input type="radio" name="cp03_email" value="no"> Có theo dõi nhưng Không cần Email.</label>
+        <label class="opt"><input type="checkbox" name="cp03_email" value="yes"> Có theo dõi Ngày xuất hàng &amp; Cần Email nhắc.</label>
+        <label class="opt"><input type="checkbox" name="cp03_email" value="no"> Có theo dõi nhưng Không cần Email.</label>
         <label class="opt"><input type="checkbox" name="cp03_key_orders"> Chỉ áp dụng cho một số đơn hàng trọng điểm.</label>
         <label class="opt"><input type="checkbox" name="cp03_consult"> Cần ARIS tư vấn thêm cấu hình cảnh báo.</label>
       </div>
@@ -163,8 +163,8 @@
     </tr></table></div>
     <div class="panel">
       <div class="opts">
-        <label class="opt"><input type="radio" name="cp04" value="pa1"> PA1: Chỉ tái kiểm đúng SL đã bị lỗi.</label>
-        <label class="opt"><input type="radio" name="cp04" value="pa2"> PA2: Tái kiểm cả SL lỗi + SL chưa kiểm.</label>
+        <label class="opt"><input type="checkbox" name="cp04" value="pa1"> PA1: Chỉ tái kiểm đúng SL đã bị lỗi.</label>
+        <label class="opt"><input type="checkbox" name="cp04" value="pa2"> PA2: Tái kiểm cả SL lỗi + SL chưa kiểm.</label>
       </div>
       <label class="note">Ý kiến / ghi chú:
         <textarea name="cp04_note"></textarea>
@@ -176,8 +176,8 @@
     <div class="cp-title"><span class="badge">CP05</span> Theo dõi tiến độ sản xuất tại Nhà máy (Factory Production)</div>
     <div class="panel">
       <div class="opts">
-        <label class="opt"><input type="radio" name="cp05" value="inspection"> Chỉ theo dõi tiến độ kiểm hàng (Khuyên dùng phase 1).</label>
-        <label class="opt"><input type="radio" name="cp05" value="production"> Theo dõi cả tiến độ sản xuất của Nhà máy.</label>
+        <label class="opt"><input type="checkbox" name="cp05" value="inspection"> Chỉ theo dõi tiến độ kiểm hàng (Khuyên dùng phase 1).</label>
+        <label class="opt"><input type="checkbox" name="cp05" value="production"> Theo dõi cả tiến độ sản xuất của Nhà máy.</label>
       </div>
       <label class="note">Ý kiến / ghi chú:
         <textarea name="cp05_note"></textarea>
@@ -225,7 +225,7 @@
     const dst = clone.querySelectorAll('input, textarea');
     form.querySelectorAll('input, textarea').forEach((el, i) => {
       const out = document.createElement('span');
-      if (el.type === 'checkbox' || el.type === 'radio') {
+      if (el.type === 'checkbox') {
         out.className = 'box' + (el.checked ? ' on' : '');
         out.textContent = el.checked ? '✓' : '';
       } else {
